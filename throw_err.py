@@ -3,10 +3,16 @@
 # This script raises an error based on 
 # user-supplied command line argument
 
-import sys, os
+import sys, os, math, gc, weakref
 
 class NoClass(object):
     pass
+
+class ExpensiveObject(object):
+    def __init__(self, name):
+        self.name = name
+    def __del__(self):
+        print '(Deleting %s)' % self
 
 def print_usage():
     """Print usage and exit"""
@@ -59,6 +65,21 @@ def attributeErr():
     scrub = NoClass()
     print scrub.Money
 
+def refErr():
+    laptop = ExpensiveObject('cost so much!')
+    p = weakref.proxy(laptop)
+
+    print 'BEFORE:', p.name
+    laptop = None
+    print 'AFTER:', p.name
+
+def unboundErr():
+    local_val = local_val + 1
+    print local_val
+
+def overflowErr():
+    print 2.0**1000000
+
 # Check args
 if len(sys.argv) != 2:
     print_usage()
@@ -87,6 +108,12 @@ elif error_type == "zerodivision":
     zerodivErr(7)
 elif error_type == "attribute":
     attributeErr()
+elif error_type == "reference":
+    refErr()
+elif error_type == "unbound":
+    unboundErr()
+elif error_type == "overflow":
+    overflowErr()
 else:
     sys.stderr.write("Sorry, not able to throw a(n) ")
     sys.stderr.write(error_type + " error\n")
