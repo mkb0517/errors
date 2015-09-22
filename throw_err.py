@@ -3,7 +3,10 @@
 # This script raises an error based on 
 # user-supplied command line argument
 
-import sys
+import sys, os
+
+class NoClass(object):
+    pass
 
 def print_usage():
     """Print usage and exit"""
@@ -14,6 +17,48 @@ def print_usage():
     sys.stderr.write("\tzerodivision\n")
     sys.exit()
 
+def assertionErr(x):
+    assert (x>0), '%s is not greater than 0!?' % (x)
+    return (x)
+
+def ioErr():
+    name = '/no_such_file.txt'
+    with open("no_such_file.txt") as f:
+        print(f.readline())
+
+def importErr():
+    from abcde import fghij
+    
+def indexErr():
+    a=[1,2,3]
+    return a[4]
+
+def keyErr():
+    a = { 'there':1, 'iz':2, 'no':3, 'spoon':4 }
+    print a['illusion']
+
+def nameErr():
+    if trolololol < 777:
+        return trolololol-77
+
+def osErr():
+    for i in range(10):
+        print i, os.ttyname(i)
+
+def typeErr():
+    name = 'fantastico'
+    return name + 3
+
+def valueErr():
+    print chr(1024)
+
+def zerodivErr(x):
+    return x/0 
+
+def attributeErr():
+    scrub = NoClass()
+    print scrub.Money
+
 # Check args
 if len(sys.argv) != 2:
     print_usage()
@@ -21,25 +66,27 @@ if len(sys.argv) != 2:
 error_type = sys.argv[1]
 
 if error_type == "assertion":
-    raise AssertionError
+    assertionErr(-7)
 elif error_type == "io":
-    raise IOError
+    ioErr()
 elif error_type == "import":
-    raise ImportError
+    importErr()
 elif error_type == "index":
-    raise IndexError
+    indexErr()
 elif error_type == "key":
-    raise KeyError
+    keyErr()
 elif error_type == "name":
-    raise NameError
+    nameErr()
 elif error_type == "os":
-    raise OSError
+    osErr()
 elif error_type == "type":
-    raise TypeError
+    typeErr()
 elif error_type == "value":
-    raise ValueError
+    valueErr()
 elif error_type == "zerodivision":
-    raise ZeroDivisionError
+    zerodivErr(7)
+elif error_type == "attribute":
+    attributeErr()
 else:
     sys.stderr.write("Sorry, not able to throw a(n) ")
     sys.stderr.write(error_type + " error\n")
