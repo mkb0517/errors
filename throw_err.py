@@ -5,7 +5,7 @@
 
 import sys, os, math, gc, weakref
 
-class NoClass(object):
+class Scrub(object):
     pass
 
 class ExpensiveObject(object):
@@ -48,7 +48,7 @@ def nameErr():
         return trolololol-77
 
 def osErr():
-    for i in range(10):
+    for i in range(7):
         print i, os.ttyname(i)
 
 def typeErr():
@@ -56,13 +56,13 @@ def typeErr():
     return name + 3
 
 def valueErr():
-    print chr(1024)
+    print chr(257)
 
 def zerodivErr(x):
     return x/0 
 
 def attributeErr():
-    scrub = NoClass()
+    scrub = Scrub()
     print scrub.Money
 
 def refErr():
