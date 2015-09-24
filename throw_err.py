@@ -14,13 +14,17 @@ class ExpensiveObject(object):
     def __del__(self):
         print '(Deleting %s)' % self
 
+class UnimportantError:
+    """Everything is just so... bleh"""
+
 def print_usage():
     """Print usage and exit"""
     sys.stderr.write("usage: python raise_err.py <error type>\n")
     sys.stderr.write("available errors: \n")
     sys.stderr.write("\tassertion, io, import, index\n")
     sys.stderr.write("\tkey, name, os, type, value,\n")
-    sys.stderr.write("\tzerodivision\n")
+    sys.stderr.write("\tzerodivision, attribute, overflow\n")
+    sys.stderr.write("\tunbound, reference, unimportant\n")
     sys.exit()
 
 def assertionErr(x):
@@ -80,6 +84,11 @@ def unboundErr():
 def overflowErr():
     print 2.0**1000000
 
+def unimpErr():
+    crumb = "meh"
+    if crumb != "ZOMG WOW": 
+        raise UnimportantError
+
 # Check args
 if len(sys.argv) != 2:
     print_usage()
@@ -114,6 +123,9 @@ elif error_type == "unbound":
     unboundErr()
 elif error_type == "overflow":
     overflowErr()
+elif error_type == "unimportant":
+    unimpErr()
+
 else:
     sys.stderr.write("Sorry, not able to throw a(n) ")
     sys.stderr.write(error_type + " error\n")
