@@ -5,8 +5,12 @@
 
 import sys, os, math, gc, weakref, argparse
 
+available_errors = ["assertion", "io", "import", "index", "key", "name", "os",
+    "type", "value","zerodivision", "attribute", "unbound", "reference", 
+    "overflow", "unimportant"]
 parser = argparse.ArgumentParser()
-parser.add_argument("error_type")
+parser.add_argument("error_type",
+    choices=available_errors)
 args = parser.parse_args()
 error_type = args.error_type
 
