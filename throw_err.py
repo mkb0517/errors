@@ -3,7 +3,12 @@
 # This script raises an error based on 
 # user-supplied command line argument
 
-import sys, os, math, gc, weakref
+import sys, os, math, gc, weakref, argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("error_type")
+args = parser.parse_args()
+error_type = args.error_type
 
 class Scrub(object):
     pass
@@ -16,16 +21,6 @@ class ExpensiveObject(object):
 
 class UnimportantError:
     """Everything is just so... bleh"""
-
-def print_usage():
-    """Print usage and exit"""
-    sys.stderr.write("usage: python raise_err.py <error type>\n")
-    sys.stderr.write("available errors: \n")
-    sys.stderr.write("\tassertion, io, import, index\n")
-    sys.stderr.write("\tkey, name, os, type, value,\n")
-    sys.stderr.write("\tzerodivision, attribute, overflow\n")
-    sys.stderr.write("\tunbound, reference, unimportant\n")
-    sys.exit()
 
 def assertionErr(x):
     assert (x>0), '%s is not greater than 0!?' % (x)
@@ -88,12 +83,6 @@ def unimpErr():
     crumb = "meh"
     if crumb != "ZOMG WOW": 
         raise UnimportantError
-
-# Check args
-if len(sys.argv) != 2:
-    print_usage()
-
-error_type = sys.argv[1]
 
 if error_type == "assertion":
     assertionErr(-7)
